@@ -1,8 +1,8 @@
 import argparse
 
-from agent import Agent
-from game_ai import SnakeGameAI
-from additional_functions import plot
+from functions.agent import Agent
+from functions.game_ai import SnakeGameAI
+from functions.additional_functions import plot
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--width", help="set game window's width (default=640)", type=int)
