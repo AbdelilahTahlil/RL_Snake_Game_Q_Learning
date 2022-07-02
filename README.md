@@ -9,7 +9,6 @@ I have used for my first project of the kind a classic and old game, the Snake G
 <p float="left", align="middle">
     <img width="300" height="250" src="screenshots/snake_game_plot.gif">
     <img width="300" height="250" src="screenshots/snake_game.gif">
-  <img src="/img3.png" width="100" />
 </p>
 
 As it is my first time coding a python game, I was inspired by the work of Patrick Loeber and Michael Sequin. [This is the link of their version of the game and AI Model](https://github.com/python-engineer/snake-ai-pytorch). 
