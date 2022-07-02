@@ -6,8 +6,8 @@ from functions.game_ai import SnakeGameAI
 from functions.additional_functions import plot
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--width", help="set game window's width (default=640)")
-parser.add_argument("--height", help="set game window's height (default=480)")
+parser.add_argument("--width", help="set the width of the game window (default=640)")
+parser.add_argument("--height", help="set the height of the game window (default=480)")
 parser.add_argument("--num-obstacles", help="set the number of obstacles within the game (default=5)")
 parser.add_argument("--speed", help="set the speed of the snake (default=100)")
 args = parser.parse_args()
