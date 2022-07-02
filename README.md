@@ -27,13 +27,16 @@ The similarities and the differences are detailed below.
 ```
 pip install -r requirements.txt
 ```
-3. Run the game.
+3. Run the game. The arguments are optional.
 ```
-python run_game.py
+python run_game.py --num_obstacles <num_obstacles> --width <width> --height <height> --speed <speed>
 ```
 
-### Additional parameters:
-You can set different values for some parameters (width an height of the game window, number of obstacles, ..). See the help section for more details :
-```
-python run_game.py --help
-```
+### Optional arguments:
+options:
+  -h, --help                        show help message and exit
+  --width WIDTH                     set the width of the game window (default=640)
+  --height HEIGHT                   set the height of game window (default=480)
+  --num-obstacles NUM_OBSTACLES     set the number of obstacles within the game (default=5)
+  --speed SPEED                     set the speed of the snake (default=100)
+
