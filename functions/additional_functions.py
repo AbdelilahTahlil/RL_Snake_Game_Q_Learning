@@ -4,6 +4,9 @@ from IPython import display
 plt.ion()
 
 def plot(scores, mean_scores):
+    '''
+    plot game score.
+    '''
     display.clear_output(wait=True)
     display.display(plt.gcf())
     plt.clf()

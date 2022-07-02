@@ -1,12 +1,12 @@
 import sys
 import os
+import random
 
 import pygame
-import random
 import numpy as np
 
 
-pygame.init()
+pygame.init() # pylint: disable=no-member
 font = pygame.font.Font(os.path.join('functions','arial.ttf'), 25)
 
 
@@ -25,11 +25,17 @@ apple_rect= APPLE.get_rect()
 
 
 class Point:
+    '''
+    Point (block) of the game.
+    '''
     def __init__(self, x, y):
         self.x=x
         self.y=y
 
 class Direction:
+    '''
+    Snake's direction
+    '''
     RIGHT = 0
     DOWN = 1
     LEFT = 2
@@ -38,12 +44,19 @@ class Direction:
 
 
 class SnakeGameAI:
-
+    '''
+    Game environment
+    '''
     def __init__(self, num_obstacles, width, height, speed):
         self.w = width
         self.h = height
         self.speed = speed
-        
+        self.head = None
+        self.direction = None
+        self.apple = None
+        self.obstacles = None
+
+
 
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake Game AI')
@@ -51,9 +64,12 @@ class SnakeGameAI:
         self.num_obstacles = num_obstacles
         self.reset()
         self.update_ui(0)
-    
+
     def reset(self):
-        self.frame_iteration = 0 
+        '''
+        Reset game attributes.
+        '''
+        self.frame_iteration = 0
         self.score = 0
 
         self.head = Point(self.w/2, self.h/2)
@@ -64,12 +80,15 @@ class SnakeGameAI:
         ]
 
         self.direction = Direction.RIGHT
-        
+
         self.place_apple_and_obstacles()
-        
+
 
 
     def place_apple_and_obstacles(self):
+        '''
+        Randomly place the apple and the obstacles.
+        '''
         self.apple = apple_rect
         self.apple.x, self.apple.y = (
             random.randint(0,self.w//BLOCK_SIZE -5)*BLOCK_SIZE,
@@ -92,6 +111,9 @@ class SnakeGameAI:
         ]
 
     def update_ui(self, n_game):
+        '''
+        Draw all game elements on the screen.
+        '''
         self.display.fill(BLACK)
         for part in self.snake:
             pygame.draw.rect(
@@ -103,7 +125,7 @@ class SnakeGameAI:
                 BLOCK_SIZE-BLOCK_DISTANCE
                 )
             )
-        
+
         for obst in self.obstacles:
             pygame.draw.rect(
                 self.display,
@@ -115,7 +137,7 @@ class SnakeGameAI:
                     BLOCK_SIZE-BLOCK_DISTANCE
                 )
             )
-        
+
         self.display.blit(APPLE, apple_rect)
 
         text = font.render(f"Score: {self.score}. Game: {n_game}.", True, WHITE)
@@ -123,12 +145,15 @@ class SnakeGameAI:
         pygame.display.flip()
 
     def play(self, action, n_game):
+        '''
+        Play the action given in input and update the screen.
+        '''
         # action = [left, straight, right]
         self.frame_iteration += 1
 
         # check if user closed the window
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: # pylint: disable=no-member
                 sys.exit()
 
         # convert action to direction
@@ -136,7 +161,7 @@ class SnakeGameAI:
             self.direction = (self.direction-1)%4
         elif np.array_equal(action, [0, 0, 1]): # action = turn right
             self.direction = (self.direction+1)%4
-        
+
         # move and get the reward of that move
         reward = self._move(self.direction)
 
@@ -147,16 +172,16 @@ class SnakeGameAI:
             game_over = True
             reward = -10
             return game_over, reward, self.score
-        
+
         # update user interface
         self.update_ui(n_game)
         self.clock.tick(self.speed)
 
         return game_over, reward, self.score
-    
+
 
     def _move(self, direction):
-                
+
         self.head = self._next_point(direction)
         self.snake.insert(0, self.head)
         if (self.head.x == self.apple.x and
@@ -167,9 +192,9 @@ class SnakeGameAI:
         else: 
             reward = 0
             self.snake.pop()
-        
+
         return reward
-    
+
     def _next_point(self, direction) :
         x = self.head.x
         y = self.head.y
@@ -194,7 +219,7 @@ class SnakeGameAI:
             else:
                 y -= BLOCK_SIZE
         return Point(x, y)
-    
+
 
     def _is_collision(self, point):
         for part in self.snake[1:]:
@@ -205,8 +230,11 @@ class SnakeGameAI:
                 return True
         return False
 
-    
+
     def get_state(self):
+        '''
+        Get the current state. The values correspond to neural networks' inputs.
+        '''
         # danger location
         danger_left = self._is_collision(self._next_point((self.direction-1)%4))
         danger_straight = self._is_collision(self._next_point(self.direction))
@@ -246,4 +274,3 @@ class SnakeGameAI:
             apple_straight,
             apple_right
         ]
-

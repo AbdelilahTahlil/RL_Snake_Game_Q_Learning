@@ -85,7 +85,7 @@ if __name__ == '__main__':
             # update record
             if score > record:
                 record = score
-            
+
             print('Game', agent.n_games, 'Score', score, 'Record:', record)
 
             # plot scores

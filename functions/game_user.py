@@ -1,11 +1,11 @@
 import sys
 import os
-
-import pygame
 import random
 
+import pygame
 
-pygame.init()
+
+pygame.init() # pylint: disable=no-member
 
 
 
@@ -24,24 +24,32 @@ apple_rect= APPLE.get_rect()
 
 
 class Point:
+    '''
+    Point
+    '''
     def __init__(self, x, y):
         self.x=x
         self.y=y
 
 class Direction:
+    '''
+    Snake's direction
+    '''
     RIGHT = 0
     DOWN = 1
     LEFT = 2
     UP = 3
-    
+
 
 
 class SnakeGame:
-
+    '''
+    Snake Game
+    '''
     def __init__(self, width= 640, height= 480, num_obstacles=5):
         self.w = width
         self.h = height
-        
+
 
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake Game')
@@ -55,13 +63,16 @@ class SnakeGame:
         ]
         self.num_obstacles = num_obstacles
         self.place_apple_and_obstacles()
-        
+
         self.direction = Direction.RIGHT
         self.score = 0
 
         self.update_ui()
-    
+
     def place_apple_and_obstacles(self):
+        '''
+        Randomly place the apple and the obstacles.
+        '''
         self.apple = apple_rect
         self.apple.x, self.apple.y = (
             random.randint(0,WINDOW_SIZE//BLOCK_SIZE -1)*BLOCK_SIZE,
@@ -78,6 +89,9 @@ class SnakeGame:
         ]
 
     def update_ui(self):
+        '''
+        Draw all game elements on the screen.
+        '''
         self.display.fill(BLACK)
         for part in self.snake:
             pygame.draw.rect(
@@ -127,7 +141,7 @@ class SnakeGame:
                 y = self.h -BLOCK_SIZE
             else:
                 y -= BLOCK_SIZE
-        
+
         self.head = Point(x, y)
         self.snake.insert(0, self.head)
         if (self.head.x in range(self.apple.x, self.apple.x + BLOCK_SIZE) and
@@ -136,9 +150,16 @@ class SnakeGame:
             self.place_apple_and_obstacles()
         else: 
             self.snake.pop()
-        
+
 
     def play(self):
+        # pylint: disable=no-member
+        '''
+        Play the action given by the player.
+        Inputs:
+            Left key: Turn left.
+            Right key: Turn right.
+        '''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -148,7 +169,7 @@ class SnakeGame:
                     self.direction = (self.direction-1)%4
                 elif event.key == pygame.K_RIGHT:
                     self.direction = (self.direction+1)%4
-        
+
         self._move(self.direction)
         self.update_ui()
         self.clock.tick(SPEED)
@@ -156,7 +177,7 @@ class SnakeGame:
         return self._is_collision(), self.score
 
 
-    
+
     def _is_collision(self):
         for part in self.snake[1:]:
             if (self.head.x == part.x) and (self.head.y == part.y):
@@ -176,11 +197,3 @@ if __name__ == '__main__':
         if is_collision:
             print('Score: ', score)
             sys.exit()
-    
-    
-    
-
-
-
-
-        
