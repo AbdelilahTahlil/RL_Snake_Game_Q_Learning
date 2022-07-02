@@ -33,10 +33,10 @@ python run_game.py --num_obstacles <num_obstacles> --width <width> --height <hei
 ```
 
 ### Optional arguments:
-options:
-  -h, --help                        show help message and exit
-  --width WIDTH                     set the width of the game window (default=640)
-  --height HEIGHT                   set the height of game window (default=480)
-  --num-obstacles NUM_OBSTACLES     set the number of obstacles within the game (default=5)
-  --speed SPEED                     set the speed of the snake (default=100)
+options:  
+ **-h**, **--help** : show help message and exit  
+ **--width** : set the width of the game window (default=640)  
+  **--height** :                   set the height of game window (default=480)  
+  **--num-obstacles** : set the number of obstacles within the game (default=5)  
+  **--speed** : set the speed of the snake (default=100)
 
