@@ -18,7 +18,6 @@ WHITE= 255, 255, 255
 BLOCK_SIZE= 20
 BLOCK_DISTANCE= 2
 #WINDOW_SIZE = BLOCK_SIZE*30
-SPEED= 100
 
 APPLE = pygame.image.load(os.path.join('img', 'apple.png'))
 APPLE= pygame.transform.smoothscale(APPLE, (BLOCK_SIZE, BLOCK_SIZE)) 
@@ -35,14 +34,15 @@ class Direction:
     DOWN = 1
     LEFT = 2
     UP = 3
-    
+
 
 
 class SnakeGameAI:
 
-    def __init__(self, width= 640, height= 480, num_obstacles=5):
+    def __init__(self, num_obstacles, width, height, speed):
         self.w = width
         self.h = height
+        self.speed = speed
         
 
         self.display = pygame.display.set_mode((self.w, self.h))
@@ -150,7 +150,7 @@ class SnakeGameAI:
         
         # update user interface
         self.update_ui(n_game)
-        self.clock.tick(SPEED)
+        self.clock.tick(self.speed)
 
         return game_over, reward, self.score
     

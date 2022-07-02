@@ -1,30 +1,52 @@
 import argparse
+import sys
 
 from functions.agent import Agent
 from functions.game_ai import SnakeGameAI
 from functions.additional_functions import plot
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--width", help="set game window's width (default=640)", type=int)
-parser.add_argument("--height", help="set game window's height (default=480)", type=int)
-parser.add_argument("--num-obstacles", help="set the number of obstacles within the game (default=5)", type=int)
-
+parser.add_argument("--width", help="set game window's width (default=640)")
+parser.add_argument("--height", help="set game window's height (default=480)")
+parser.add_argument("--num-obstacles", help="set the number of obstacles within the game (default=5)")
+parser.add_argument("--speed", help="set the speed of the snake (default=100)")
 args = parser.parse_args()
 
 if args.width:
-    width=args.width
+    try :
+        width=int(args.width)
+    except :
+        print('Argument Type Error: width should be an integer.')
+        sys.exit()
 else:
     width=640
 
 if args.height:
-    height=args.height
+    try :
+        height=int(args.height)
+    except :
+        print('Argument Type Error: height should be an integer.')
+        sys.exit()
 else:
     height=480
 
 if args.num_obstacles or args.num_obstacles==0:
-    num_obstacles=args.num_obstacles
+    try :
+        num_obstacles=int(args.num_obstacles)
+    except :
+        print('Argument Type Error: num_obstacles should be an integer.')
+        sys.exit()
 else:
     num_obstacles=5
+
+if args.speed:
+    try :
+        speed=int(args.speed)
+    except :
+        print('Argument Type Error: speed should be an integer.')
+        sys.exit()
+else:
+    speed=100
 
 if __name__ == '__main__':
     plot_scores = []
@@ -32,7 +54,7 @@ if __name__ == '__main__':
     total_score = 0
     record = 0
     agent = Agent()
-    game = SnakeGameAI(width=width, height=height, num_obstacles=num_obstacles)
+    game = SnakeGameAI(num_obstacles=num_obstacles, width=width, height=height, speed=speed)
     while True:
         # get current state of the game 
         old_state = game.get_state()
